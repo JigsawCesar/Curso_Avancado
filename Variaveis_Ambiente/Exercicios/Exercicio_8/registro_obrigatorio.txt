@@ -1,0 +1,10 @@
+Registro Obrigatório:
+
+- Sintoma: Variáveis de ambiente lidas como undefined, falta de tipagem segura (portas tratadas como string) e configurações alteradas em tempo de execução.   
+- Como foi reproduzido: Inspecionando a ordem dos imports e tentando alterar config.db.host em outro módulo.   
+- Resultado esperado: O módulo de configuração deve validar tudo na subida, congelar os dados, entregar tipos estritos e ser a única fonte de leitura de process.env.   
+- Resultado obtido: Leitura ad-hoc de process.env espalhada, dotenv.config() chamado tarde demais e objetos mutáveis.   
+- Hipótese: Ordem de importação errada no ciclo do evento e ausência de barreira de validação e congelamento de objeto.   
+- Como foi investigado: Análise da árvore de dependências e verificação dos tipos exportados.   
+- Causa encontrada: Falta de centralização da leitura e inicialização tardia do dotenv[cite: 5, 6].
+- Como a correção foi validada: Importando dotenv/config na primeira linha do módulo de configuração, aplicando Object.freeze e garantindo zero ocorrências de process.env nos outros ficheiros.

@@ -1,0 +1,30 @@
+Comparação pedida:
+
+Trocar a chave exige o quê?
+- Chave no código: Alterar o código, fazer um novo commit e realizar o deploy da aplicação.
+- Chave no ambiente: Apenas alterar o valor no arquivo .env do servidor e reiniciar o sistema.
+
+Quem consegue lê-la?
+- Chave no código: Qualquer pessoa que tenha acesso ao repositório de código.
+- Chave no ambiente: Apenas quem tem acesso direto ao servidor onde o sistema roda.
+
+Dois ambientes, duas chaves?
+- Chave no código: É difícil; exige criar regras e ifs manuais no código.
+- Chave no ambiente: É natural; o ambiente de Teste usa o seu .env e o de Produção usa o dele.
+
+O que acontece se vazar?
+- Chave no código: O histórico do Git fica exposto, sendo necessário limpar o histórico e revogar a chave.
+- Chave no ambiente: Basta revogar a chave no painel do serviço e colocar uma nova no .env.
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Registro Obrigatório:
+
+- Sintoma: A chave de API estava exposta em múltiplos pontos.   
+- Como foi reproduzido: Inspecionando o código-fonte, a saída do console.log e simulando um erro na requisição.   
+- Resultado esperado: A chave não deve aparecer em código, URL, logs ou mensagens de erro.   
+- Resultado obtido: A chave aparecia em fallback de variável, URL de chamada, logs do terminal e no trecho do throw Error.   
+- Hipótese: Más práticas de passagem de credenciais por parâmetro de URL e logs sem tratamento de campos sensíveis.   
+- Como foi investigado: Análise estática do arquivo src/weather.ts e simulação de requisições.   
+- Causa encontrada: Envio da credencial via Query String e concatenação de segredos em mensagens de exceção e logs.   
+- Como a correção foi validada: Mapeamento da chave para cabeçalho HTTP, validação de presença na subida da aplicação e mascaramento em logs.
