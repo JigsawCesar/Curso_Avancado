@@ -1,0 +1,10 @@
+Registro obrigatório:
+
+- Sintoma: O caminho do log salvou uma string com a sintaxe literal ${NODE_ENV} e a aplicação falhou ao rodar em produção.
+- Como foi reproduzido: Inspecionando o nome do arquivo gerado dentro de logs/ e alterando NODE_ENV=production.
+- Resultado esperado: As variáveis no .env devem ser expandidas para development.log ou production.log e a pasta criada automaticamente.
+- Resultado obtido: Criação de arquivo literal '${NODE_ENV}.log' e erro ENOENT por falta do diretório logs/.
+- Hipótese: A biblioteca dotenv pura não suporta interpolação sem o dotenv-expand e falta tratamento de criação de diretórios no Node.js.
+- Como foi investigado: Análise do comportamento do dotenv e verificação da árvore de diretórios ao iniciar o app.
+- Causa encontrada: Ausência do dotenv-expand e leitura un-anchored de LOG_PATH sem chamada para fs.mkdirSync.
+- Como a correção foi validada: Inclusão do dotenvExpand.expand(), ancoragem via path.resolve() e verificação dos logs gerados em development.log e production.log.

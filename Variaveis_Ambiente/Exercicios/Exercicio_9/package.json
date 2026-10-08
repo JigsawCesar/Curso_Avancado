@@ -1,0 +1,28 @@
+{
+  "name": "variaveis_ambiente",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "predev": "npx tsx Scripts/check-env.ts",
+    "dev": "npm run start:dev",
+    "start:dev": "cross-env NODE_ENV=development tsx src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^18.0.5",
+    "env-schema": "^8.0.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "cross-env": "^10.1.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.3"
+  },
+  "description": ""
+}

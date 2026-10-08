@@ -1,0 +1,10 @@
+Registro obrigatório:
+
+- Sintoma: Aplicação deixou de rodar nas máquinas dos colegas após atualização de código e um ficheiro .env com dados sensíveis foi commitado no Git.   
+- Como foi reproduzido: Rodando git pull e executando npm run start:dev numa máquina limpa.   
+- Resultado esperado: O projeto deve avisar claramente quais variáveis faltam antes de tentar rodar e o ficheiro .env nunca deve ir parar ao Git.   
+- Resultado obtido: Erro genérico durante a execução da aplicação e segredos vazados no histórico do Git.   
+- Hipótese: Falta de automatização no processo de verificação de ambiente e ausência de regras no Git para o ficheiro .env.   
+- Como foi investigado: Análise do histórico do Git (git log), inspeção do .env.example desatualizado e simulação de arranque sem a variável PAYMENT_URL.   
+- Causa encontrada: A pessoa que criou a funcionalidade de pagamento não atualizou o .env.example e outro colega enviou o .env para o repositório.   
+- Como a correção foi validada: Executando check-env.ts via hook predev para bloquear a subida quando falta uma chave e removendo o .env do versionamento. 
